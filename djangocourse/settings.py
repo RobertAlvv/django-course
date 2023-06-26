@@ -44,7 +44,7 @@ LOCAL_APP = [
 ]
 
 THIRD_APP = [
-    
+    'import_export',
 ]
 
 
