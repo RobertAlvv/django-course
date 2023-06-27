@@ -3,7 +3,7 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
-from apps.blog.models import Author, Category
+from apps.blog.models import Author, Category, Post
 
 class CategoryResource(resources.ModelResource):
     class Meta:
@@ -26,3 +26,4 @@ class AuthoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Author, AuthoAdmin)
+admin.site.register(Post)
