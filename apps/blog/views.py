@@ -1,13 +1,24 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
+from django.core.paginator import Paginator
+
 from apps.blog.models import Post, Category
 
 
 def index(request):
     queryset = request.GET.get("buscar")
     posts = Post.objects.filter(state = True)
+    
     if queryset:
-      posts =  Post.objects.filter(Q(title__icontains=queryset) | Q(description__icontains= queryset)).distinct
+      
+      posts =  Post.objects.filter(
+          Q(title__icontains=queryset) | 
+          Q(description__icontains= queryset)
+      ).distinct()
+    
+    paginator = Paginator(posts, 2)
+    page = request.GET.get("page", 1)
+    posts = paginator.get_page(page)
     
     return render(request, 'index.html', {"posts": posts})
 
@@ -31,7 +42,11 @@ def generals(request):
           Q(description__icontains= queryset),
           state= True, 
           category = Category.objects.get(name__iexact = "Generales"), 
-        ).distinct
+        ).distinct()
+      
+    paginator = Paginator(posts, 2)
+    page = request.GET.get("page", 1)
+    posts = paginator.get_page(page)
     
     return render(request, 'generals.html', {"posts": posts})
 
@@ -47,7 +62,11 @@ def programming(request):
           Q(description__icontains= queryset),
           state= True, 
           category = Category.objects.get(name__iexact = "Programacion"), 
-        ).distinct
+        ).distinct()
+    
+    paginator = Paginator(posts, 2)
+    page = request.GET.get("page", 1)
+    posts = paginator.get_page(page)
             
     return render(request, 'programming.html', {"posts": posts})
 
@@ -64,8 +83,12 @@ def tutorials(request):
           Q(description__icontains= queryset),
           state= True, 
           category = Category.objects.get(name__iexact = "Tutoriales"), 
-        ).distinct  
-      
+        ).distinct()
+
+    paginator = Paginator(posts, 2)
+    page = request.GET.get("page", 1)
+    posts = paginator.get_page(page)
+     
     return render(request, 'tutorials.html', {"posts": posts})
 
 def technology(request):
@@ -81,8 +104,12 @@ def technology(request):
           Q(description__icontains= queryset),
           state= True, 
           category = Category.objects.get(name__iexact = "Tecnologia"), 
-        ).distinct 
-            
+        ).distinct()
+    
+    paginator = Paginator(posts, 2)
+    page = request.GET.get("page", 1)
+    posts = paginator.get_page(page)
+                
     return render(request, 'technology.html', {"posts": posts})
 
 def videogame(request):
@@ -98,8 +125,10 @@ def videogame(request):
           Q(description__icontains= queryset),
           state= True, 
           category = Category.objects.get(name__iexact = "Video Juegos"), 
-        ).distinct 
+        ).distinct() 
 
-
+    paginator = Paginator(posts, 2)
+    page = request.GET.get("page", 1)
+    posts = paginator.get_page(page)
 
     return render(request, 'videogame.html', {"posts": posts})
