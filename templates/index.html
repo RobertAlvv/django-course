@@ -72,15 +72,36 @@
         </div>
       </div>
     </header>
+  {% block searchbar %}
+    <div class="container">
+      <div class ="row">
+        <div class="col-md-12 search">
+          <form method="get">
+            <div id="custom-search-input">
+              <div class="input-group col-md-12">
+                <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value = "{{request.GET.buscar}}">
+                <span class= "input-group-list">
+                  <i class="icon icon-search"></i>
+                  <button type="submit" class="boton btn-success">Buscar</button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endblock searchbar %}
 
     <!-- Main Content -->
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+        {% block content %}
+
           {% if posts %}
           {% for post in posts %}
             <div class="post-preview">
-              <a href="post.html">
+              <a href="{% url 'blog:post_detail' post.slug %}">
                 <h2 class="post-title">
                   {{post.title}}
                 </h2>
@@ -97,10 +118,7 @@
           {% else %}
             <h1>No existen post registrado!</h1>
           {% endif %}
-          <!-- Pager -->
-          <div class="clearfix">
-            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-          </div>
+          {% endblock content %}
         </div>
       </div>
     </div>

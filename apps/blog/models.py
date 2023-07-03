@@ -30,7 +30,7 @@ class Author(models.Model):
         verbose_name_plural = "Autores"
 
     def __str__(self):
-        return "{0}, {1}".format(self.name, self.last_name)
+        return "{0} {1}".format(self.name, self.last_name)
     
     
 class Post(models.Model):
